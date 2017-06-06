@@ -48,6 +48,7 @@ Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/ji
 - `navigator.notification.alert`
 - `navigator.notification.confirm`
 - `navigator.notification.prompt`
+- *`navigator.notification.promptSinglePassword`*
 - `navigator.notification.beep`
 
 ## navigator.notification.alert
@@ -177,10 +178,12 @@ indexing, so the value is `1`, `2`, `3`, etc.
 Both native-blocking `window.confirm()` and non-blocking `navigator.notification.confirm()` are available.
 
 ## navigator.notification.prompt
+## navigator.notification.promptSinglePassword
 
 Displays a native dialog box that is more customizable than the browser's `prompt` function.
 
     navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
+    navigator.notification.promptSinglePassword(message, promptCallback, [title], [buttonLabels], [defaultText])
 
 - __message__: Dialog message. _(String)_
 

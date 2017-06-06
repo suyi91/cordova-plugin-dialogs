@@ -21,6 +21,7 @@
 
 #define DIALOG_TYPE_ALERT @"alert"
 #define DIALOG_TYPE_PROMPT @"prompt"
+#define DIALOG_TYPE_PROMPT_SINGLE_PASSWORD @"prompt_single_password"
 
 static void soundCompletionCallback(SystemSoundID ssid, void* data);
 static NSMutableArray *alertList = nil;
@@ -69,7 +70,7 @@ static NSMutableArray *alertList = nil;
             {
                 CDVPluginResult* result;
 
-                if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT])
+                if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT] || [dialogType isEqualToString:DIALOG_TYPE_PROMPT_SINGLE_PASSWORD])
                 {
                     NSString* value0 = [[alertController.textFields objectAtIndex:0] text];
                     NSDictionary* info = @{
@@ -91,6 +92,13 @@ static NSMutableArray *alertList = nil;
             
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.text = defaultText;
+            }];
+        }
+        if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT_SINGLE_PASSWORD]) {
+            
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.text = defaultText;
+                textField.secureTextEntry = YES;
             }];
         }
         
@@ -128,6 +136,12 @@ static NSMutableArray *alertList = nil;
             textField.text = defaultText;
         }
         
+        if ([dialogType isEqualToString:DIALOG_TYPE_PROMPT_SINGLE_PASSWORD]) {
+            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+            UITextField* textField = [alertView textFieldAtIndex:0];
+            textField.text = defaultText;
+            textField.secureTextEntry = YES;
+        }
         [alertView show];
 #ifdef __IPHONE_8_0
     }
@@ -163,6 +177,17 @@ static NSMutableArray *alertList = nil;
     NSArray* buttons = [command argumentAtIndex:2];
     NSString* defaultText = [command argumentAtIndex:3];
 
+    [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
+}
+
+- (void)promptSinglePassword:(CDVInvokedUrlCommand*)command
+{
+    NSString* callbackId = command.callbackId;
+    NSString* message = [command argumentAtIndex:0];
+    NSString* title = [command argumentAtIndex:1];
+    NSArray* buttons = [command argumentAtIndex:2];
+    NSString* defaultText = [command argumentAtIndex:3];
+    
     [self showDialogWithMessage:message title:title buttons:buttons defaultText:defaultText callbackId:callbackId dialogType:DIALOG_TYPE_PROMPT];
 }
 
