@@ -95,6 +95,10 @@ public class Notification extends CordovaPlugin {
             this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
             return true;
         }
+        else if (action.equals("promptSinglePassword")) {
+            this.promptSinglePassword(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
+            return true;
+        }
         else if (action.equals("activityStart")) {
             this.activityStart(args.getString(0), args.getString(1));
         }
