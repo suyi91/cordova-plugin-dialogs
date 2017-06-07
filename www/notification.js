@@ -78,11 +78,14 @@ module.exports = {
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
      * @param {String} defaultText          Textbox input value (default: empty string)
+     * @param {String} type                 Textbox input type (default: "text" => collections: ["text", "password"])
      */
-    prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
+    prompt: function(message, resultCallback, title, buttonLabels, defaultText, type) {
         var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
+        var typeCollections = ["text", "password"];
+        var _type = typeCollections.indexOf(type) > -1 ? type : typeCollections[0];
 
         // Strings are deprecated!
         if (typeof _buttonLabels === 'string') {
@@ -92,37 +95,7 @@ module.exports = {
         _buttonLabels = convertButtonLabels(_buttonLabels);
 
         var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
-    },
-
-    /**
-     * Basically the same with 🔼prompt.
-     * Open a native prompt dialog, with a customizable title
-     * and button text AND THE INPUT AREA IS USED FOR PASSWORD.
-     * The following results are returned to the result callback:
-     *  buttonIndex     Index number of the button selected.
-     *  input1          The text entered in the prompt dialog box.
-     *
-     * @param {String} message              Dialog message to display (default: "Prompt message")
-     * @param {Function} resultCallback     The callback that is called when user clicks on a button.
-     * @param {String} title                Title of the dialog (default: "Prompt")
-     * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
-     * @param {String} defaultText          Textbox input value (default: empty string)
-     */
-    promptSinglePassword: function(message, resultCallback, title, buttonLabels, defaultText) {
-        var _message = (typeof message === "string" ? message : JSON.stringify(message));
-        var _title = (typeof title === "string" ? title : "Prompt");
-        var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
-
-        // Strings are deprecated!
-        if (typeof _buttonLabels === 'string') {
-            console.log("Notification.prompt(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).");
-        }
-
-        _buttonLabels = convertButtonLabels(_buttonLabels);
-
-        var _defaultText = (defaultText || "");
-        exec(resultCallback, null, "Notification", "promptSinglePassword", [_message, _title, _buttonLabels, _defaultText]);
+        exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText, _type]);
     },
 
     /**
