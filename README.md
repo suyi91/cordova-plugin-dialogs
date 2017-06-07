@@ -48,7 +48,6 @@ Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/ji
 - `navigator.notification.alert`
 - `navigator.notification.confirm`
 - `navigator.notification.prompt`
-- *`navigator.notification.promptSinglePassword`*
 - `navigator.notification.beep`
 
 ## navigator.notification.alert
@@ -178,12 +177,10 @@ indexing, so the value is `1`, `2`, `3`, etc.
 Both native-blocking `window.confirm()` and non-blocking `navigator.notification.confirm()` are available.
 
 ## navigator.notification.prompt
-## navigator.notification.promptSinglePassword
 
 Displays a native dialog box that is more customizable than the browser's `prompt` function.
 
-    navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText])
-    navigator.notification.promptSinglePassword(message, promptCallback, [title], [buttonLabels], [defaultText])
+    navigator.notification.prompt(message, promptCallback, [title], [buttonLabels], [defaultText], type)
 
 - __message__: Dialog message. _(String)_
 
@@ -194,6 +191,8 @@ Displays a native dialog box that is more customizable than the browser's `promp
 - __buttonLabels__: Array of strings specifying button labels _(Array)_ (Optional, defaults to `["OK","Cancel"]`)
 
 - __defaultText__: Default textbox input value (`String`) (Optional, Default: empty string)
+
+- __type__: Type of the textbox (Optional, Default: "text", Values: "text|password")
 
 ### promptCallback
 
@@ -218,7 +217,8 @@ contains the following properties:
         onPrompt,                  // callback to invoke
         'Registration',            // title
         ['Ok','Exit'],             // buttonLabels
-        'Jane Doe'                 // defaultText
+        'Jane Doe',                // defaultText
+        'text'                     // textbox type
     );
 
 ### Supported Platforms
